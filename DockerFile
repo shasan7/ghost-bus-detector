@@ -1,0 +1,38 @@
+# Use official Python image
+FROM python:3.11-slim
+
+# Install Node.js (for building frontend)
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set workdir for backend
+WORKDIR /app
+
+# Copy backend requirements and install
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend code
+COPY backend/ .
+
+# Build frontend
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+# Move build files to backend static folder
+RUN mkdir -p /app/static
+RUN cp -r /app/frontend/build/* /app/static/
+
+# Set workdir back to backend
+WORKDIR /app
+
+# Expose backend port
+EXPOSE 8000
+
+# Run FastAPI app (assuming main.py serves React static files from /static)
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
