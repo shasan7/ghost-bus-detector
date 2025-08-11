@@ -1,11 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 import time
 
 from app.fetcher import fetch_gtfs_feed
 from app.parser import parse_vehicle_positions
 
 app = FastAPI()
+
+# Mount React build files under root
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 app.add_middleware(
     CORSMiddleware,
