@@ -8,7 +8,7 @@ GTFS_URL = os.getenv("GTFS_URL")
 API_KEY = os.getenv("GTFS_API_KEY")
 
 def fetch_gtfs_feed():
-    url = "https://gtfsrt.api.translink.com.au/api/realtime/SEQ/VehiclePositions/Bus" #f"{GTFS_URL}?key={API_KEY}" #?key={API_KEY}
+    url = f"{GTFS_URL}" #?key={API_KEY}
     print(f"Fetching from: {url}")  # Debug
     response = requests.get(url)
     print(f"Status code: {response.status_code}, Bytes: {len(response.content)}")  # Debug
