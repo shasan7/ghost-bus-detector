@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
 import time
 
 from app.fetcher import fetch_gtfs_feed
 from app.parser import parse_vehicle_positions
 
 app = FastAPI()
+
+# Serve frontend build
+frontend_dir = os.path.join(os.path.dirname(__file__), "frontend_build")
+if os.path.exists(frontend_dir):
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,6 +21,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def health_check():
+    return {"status": "Backend running"}
 
 cached_buses = []
 last_update_time = 0
