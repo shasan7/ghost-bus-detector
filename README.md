@@ -10,9 +10,9 @@ Problem Statement: To develop a real-time analytics system that identifies "ghos
 
 The objectives and deliverables of the project were - 
 
-• Develop a data pipeline to ingest and parse GTFS-Realtime data from a city's transit authority.
-• Build an analytics engine to detect anomalies like stale GPS data, non-movement, and significant route deviations.  
-• Create a live map dashboard that visually distinguishes reliable buses from "Stale/Stationary" buses. 
+• Develop a data pipeline to ingest and parse GTFS-Realtime data from a city's transit authority 
+• Build an analytics engine to detect anomalies like stale GPS data, non-movement, and significant route deviations  
+• Create a live map dashboard that visually distinguishes reliable buses from "Stale/Stationary" buses 
 
 On doing so, we've flagged all Active buses with green markers and all Stale/Stationary buses with red markers on the map, with a tooltip of the reason for their being flagged red. Besides, the user can hide red-flagged buses from the map to get information about active buses only. 
 
